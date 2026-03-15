@@ -38,7 +38,7 @@ const CONFIG = await fetch('./fire.config.json').then(r => r.json())
 //   https://storage.googleapis.com/silo-assets/morrill-2026-03
 const ASSETS_BASE = import.meta.env.VITE_ASSETS_BASE
 if (ASSETS_BASE) {
-  const rewrite = s => typeof s === 'string' ? s.replace(/^\.\.\/data\//, ASSETS_BASE + '/') : s
+  const rewrite = s => typeof s === 'string' ? s.replace(/^\.\.\/data\/[^/]+\//, ASSETS_BASE + '/') : s
   const { satellite, firePasses, goesTimelapse, goesFdc, buildings, reference } = CONFIG.layers
   satellite.forEach(l => { l.url = rewrite(l.url) })
   firePasses.forEach(p => { p.geojson = rewrite(p.geojson) })
