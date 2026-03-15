@@ -31,7 +31,7 @@
       {
         "id": "s2-truecolor",
         "label": "Day of the fire",
-        "sublabel": "Mar 13 · Sentinel-2",
+        "sublabel": "Mar 13 · 11:51 AM MT · Sentinel-2",
         "type": "image",
         "url": "../data/components/s2_mosaic_20260313_truecolor.png",
         "coordinates": [[-103.82,43.35],[-101.2,43.35],[-101.2,40.5],[-103.82,40.5]],
@@ -40,11 +40,19 @@
       {
         "id": "s2-swir",
         "label": "Burn scar visible",
-        "sublabel": "Mar 13 · Infrared",
+        "sublabel": "Mar 13 · 11:51 AM MT · Infrared",
         "type": "image",
         "url": "../data/components/s2_mosaic_20260313_swir_burnscar.png",
         "coordinates": [[-103.82,43.35],[-101.2,43.35],[-101.2,40.5],[-103.82,40.5]],
         "legendNote": "Red and orange areas are scorched. Darker red = more severe burn."
+      },
+      {
+        "id": "modis-truecolor",
+        "label": "Day of the fire — MODIS",
+        "sublabel": "Mar 13 · ~11:40 AM MT · MODIS Terra · 250m",
+        "type": "image",
+        "url": "../data/components/modis_truecolor_terra_20260313_corrected.png",
+        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,41.0],[-103.4,41.0]]
       },
       {
         "id": "esri-satellite",
