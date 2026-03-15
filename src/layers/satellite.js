@@ -8,7 +8,7 @@ export async function addSatelliteLayers(map, satConfigs) {
   for (const layer of satConfigs) {
     map.addSource(`sat-${layer.id}`, {
       type: 'raster',
-      url: `cog://${resolveUrl(layer.url)}`,
+      tiles: [`cog://${resolveUrl(layer.url)}`],
       tileSize: 256,
     })
 
