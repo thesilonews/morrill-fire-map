@@ -38,6 +38,10 @@ export function initTimeSlider(map, passes) {
 
   updateLabel()
 
+  // Autoplay from pass 0 on load
+  setPass(map, 0)
+  startPlay(map)
+
   // Prev/Next buttons
   document.getElementById('pass-prev').addEventListener('click', () => {
     if (currentPass > 0) setPass(map, currentPass - 1)
@@ -68,11 +72,6 @@ function setPass(map, idx) {
   showFirePass(map, idx, passConfigs)
   updateStepper()
   updateLabel()
-
-  // Show annotation on pass 2 (fire contracted eastward)
-  if (idx === 2) {
-    showPassAnnotation('Fire contracted eastward overnight — wind shift pushed toward Keith County.')
-  }
 }
 
 function updateStepper() {
@@ -96,11 +95,8 @@ function startPlay(map) {
   document.getElementById('pass-play').classList.add('playing')
 
   playInterval = setInterval(() => {
-    if (currentPass < passConfigs.length - 1) {
-      setPass(map, currentPass + 1)
-    } else {
-      stopPlay()  // Don't loop — looping a wildfire spread is inappropriate
-    }
+    const next = currentPass < passConfigs.length - 1 ? currentPass + 1 : 0
+    setPass(map, next)
   }, 2000)
 }
 
@@ -111,21 +107,3 @@ function stopPlay() {
   document.getElementById('pass-play').classList.remove('playing')
 }
 
-function showPassAnnotation(text) {
-  const existing = document.getElementById('pass-annotation')
-  if (existing) existing.remove()
-
-  const ann = document.createElement('div')
-  ann.id = 'pass-annotation'
-  ann.style.cssText = `
-    position:fixed;bottom:calc(var(--timebar-h) + 70px);left:50%;
-    transform:translateX(-50%);
-    background:rgba(17,17,17,0.92);border:1px solid #FF6B00;
-    border-radius:6px;padding:8px 16px;font-size:12px;color:#e0e0e0;
-    z-index:110;pointer-events:none;white-space:nowrap;
-    animation:fadeIn 0.3s ease;
-  `
-  ann.textContent = text
-  document.body.appendChild(ann)
-  setTimeout(() => ann.remove(), 6000)
-}
