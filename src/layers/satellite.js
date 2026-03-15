@@ -6,11 +6,20 @@
 
 export async function addSatelliteLayers(map, satConfigs) {
   for (const layer of satConfigs) {
-    map.addSource(`sat-${layer.id}`, {
-      type: 'image',
-      url: resolveUrl(layer.url),
-      coordinates: layer.coordinates,
-    })
+    if (layer.type === 'basemap') {
+      map.addSource(`sat-${layer.id}`, {
+        type: 'raster',
+        tiles: layer.tiles,
+        tileSize: layer.tileSize || 256,
+        attribution: layer.attribution || '',
+      })
+    } else {
+      map.addSource(`sat-${layer.id}`, {
+        type: 'image',
+        url: resolveUrl(layer.url),
+        coordinates: layer.coordinates,
+      })
+    }
 
     map.addLayer({
       id: `sat-${layer.id}`,

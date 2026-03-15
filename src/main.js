@@ -40,7 +40,7 @@ const ASSETS_BASE = import.meta.env.VITE_ASSETS_BASE
 if (ASSETS_BASE) {
   const rewrite = s => typeof s === 'string' ? s.replace(/^\.\.\/data\/[^/]+\//, ASSETS_BASE + '/') : s
   const { satellite, firePasses, goesTimelapse, goesFdc, buildings, reference } = CONFIG.layers
-  satellite.forEach(l => { l.url = rewrite(l.url) })
+  satellite.forEach(l => { if (l.url) l.url = rewrite(l.url) })
   firePasses.forEach(p => { p.geojson = rewrite(p.geojson) })
   goesTimelapse.url = rewrite(goesTimelapse.url)
   if (goesFdc) goesFdc.geojson = rewrite(goesFdc.geojson)

@@ -47,12 +47,14 @@
         "legendNote": "Red and orange areas are scorched. Darker red = more severe burn."
       },
       {
-        "id": "modis-truecolor",
+        "id": "esri-satellite",
         "label": "Before the fire",
-        "sublabel": "Mar 13 · NASA MODIS",
-        "type": "image",
-        "url": "../data/components/modis_truecolor_terra_20260313_corrected.png",
-        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]]
+        "sublabel": "Esri · pre-fire satellite",
+        "type": "basemap",
+        "tiles": ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+        "tileSize": 256,
+        "attribution": "Tiles © Esri, Maxar, Earthstar Geographics",
+        "legendNote": "Esri imagery shows the area before the fire. Updates lag by months."
       }
     ],
 
