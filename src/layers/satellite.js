@@ -7,9 +7,9 @@
 export async function addSatelliteLayers(map, satConfigs) {
   for (const layer of satConfigs) {
     map.addSource(`sat-${layer.id}`, {
-      type: 'raster',
-      tiles: [`cog://${resolveUrl(layer.url)}`],
-      tileSize: 256,
+      type: 'image',
+      url: resolveUrl(layer.url),
+      coordinates: layer.coordinates,
     })
 
     map.addLayer({
@@ -20,7 +20,7 @@ export async function addSatelliteLayers(map, satConfigs) {
         'raster-opacity': 0,
         'raster-opacity-transition': { duration: 400 },
       },
-    }, 'place-labels') // insert below labels
+    }, 'place-labels')
   }
 }
 
