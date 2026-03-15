@@ -97,6 +97,16 @@
         "pointCount": 37,
         "maxFrpMw": 477,
         "geojson": "../data/components/frp_march14_terra_20260314T0950Z.geojson"
+      },
+      {
+        "id": "pass-3",
+        "label": "Mar 14 · 9:50 AM",
+        "sublabel": "Daytime — fire diminishing",
+        "datetime": "2026-03-14T09:50:00-06:00",
+        "satellite": "Terra (MODIS)",
+        "pointCount": 5,
+        "maxFrpMw": 260,
+        "geojson": "../data/components/frp_mar14_terra_20260314T1550Z.geojson"
       }
     ],
 
