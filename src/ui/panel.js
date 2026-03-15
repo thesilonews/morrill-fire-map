@@ -83,6 +83,16 @@ export function initPanel(map, config) {
     setParcelsVisible(map, e.target.checked)
   })
 
+  // ── Perimeter toggle ───────────────────────────────────────
+  const perimToggle = document.getElementById('toggle-perimeter')
+  if (perimToggle) {
+    perimToggle.addEventListener('change', e => {
+      const v = e.target.checked ? 'visible' : 'none'
+      if (map.getLayer('perimeter-fill')) map.setLayoutProperty('perimeter-fill', 'visibility', v)
+      if (map.getLayer('perimeter-line')) map.setLayoutProperty('perimeter-line', 'visibility', v)
+    })
+  }
+
   // ── Timelapse label ────────────────────────────────────────
   if (goesTimelapse) {
     document.getElementById('timelapse-label').textContent = goesTimelapse.label

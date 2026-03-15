@@ -85,10 +85,10 @@ export async function addParcelsLayer(map, config) {
       'source-layer': 'parcels',
       minzoom: config.minZoom,
       paint: {
-        'line-color': '#8A7A60',
-        'line-width': 0.6,
-        'line-opacity': 0.7,
-        'line-dasharray': [3, 2],
+        'line-color': '#F0C060',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2],
+        'line-opacity': 0.8,
+        'line-dasharray': [4, 2],
       },
       layout: { visibility: 'none' },
     })
@@ -108,10 +108,10 @@ export async function addParcelsLayer(map, config) {
       source: 'parcels',
       minzoom: config.minZoom,
       paint: {
-        'line-color': '#8A7A60',
-        'line-width': 0.6,
-        'line-opacity': 0.7,
-        'line-dasharray': [3, 2],
+        'line-color': '#F0C060',
+        'line-width': ['interpolate', ['linear'], ['zoom'], 10, 0.6, 14, 1.2],
+        'line-opacity': 0.8,
+        'line-dasharray': [4, 2],
       },
       layout: { visibility: 'none' },
     })

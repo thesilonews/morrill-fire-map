@@ -21,9 +21,10 @@ import { initGoesPlayer } from './ui/goes-player.js'
 import { initSearch } from './ui/search.js'
 import { initIntro } from './ui/intro.js'
 import { addSatelliteLayers, showSatelliteLayer } from './layers/satellite.js'
-import { addFirePointLayers, showFirePass } from './layers/fire-points.js'
+import { addFirePointLayers, showFirePass, addGoesFdcLayer } from './layers/fire-points.js'
 import { addBuildingsLayer, addParcelsLayer } from './layers/buildings.js'
 import { addReferenceLayers } from './layers/reference.js'
+import { addPerimeterLayer } from './layers/perimeter.js'
 
 // ── Register protocols ──────────────────────────────────────────
 const pmtilesProtocol = new Protocol()
@@ -121,6 +122,22 @@ map.on('load', async () => {
 
   // Parcels (off by default, zoom-gated)
   await addParcelsLayer(map, CONFIG.layers.parcels)
+
+  // GOES FDC detections (off by default)
+  await addGoesFdcLayer(map, CONFIG.layers.goesFdc)
+
+  // NIFC live perimeter — updates acreage badge if a matching perimeter is found
+  const perimProps = await addPerimeterLayer(map, CONFIG.layers.perimeter)
+  if (perimProps?.poly_GISAcres) {
+    const acres = Math.round(perimProps.poly_GISAcres).toLocaleString()
+    document.getElementById('badge-acreage').textContent = `${acres} acres`
+    const pct = perimProps.attr_PercentContained ?? 0
+    const updated = perimProps.poly_DateCurrent
+      ? new Date(perimProps.poly_DateCurrent).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' })
+      : 'live'
+    document.getElementById('data-timestamp').textContent =
+      `Perimeter: ${acres} acres · ${pct}% contained · NIFC (${updated}) · ${CONFIG.fire.attribution}`
+  }
 
   // ── UI modules ─────────────────────────────────────────────
   initPanel(map, CONFIG)

@@ -106,3 +106,30 @@ export function setFirePassesVisible(map, visible, passConfigs) {
     map.setPaintProperty(`fire-ghost-${pass.id}`, 'circle-opacity', 0)
   })
 }
+
+/**
+ * GOES-18 Fire Detection & Characterization (FDC) — continuous 5-min scans.
+ * Fields: sensor, utc_time, frp_mw
+ */
+export async function addGoesFdcLayer(map, config) {
+  if (!config) return
+  const data = await fetch(config.geojson).then(r => r.json())
+  map.addSource('goes-fdc', { type: 'geojson', data })
+  map.addLayer({
+    id: 'goes-fdc-points',
+    type: 'circle',
+    source: 'goes-fdc',
+    paint: {
+      'circle-radius': ['interpolate', ['linear'],
+        ['coalesce', ['to-number', ['get', 'frp_mw'], 10], 10],
+        10, 5, 200, 10, 600, 16,
+      ],
+      'circle-color': '#FF9500',
+      'circle-opacity': 0.65,
+      'circle-stroke-width': 0.5,
+      'circle-stroke-color': '#CC6600',
+      'circle-stroke-opacity': 0.8,
+    },
+    layout: { visibility: 'none' },
+  })
+}

@@ -137,6 +137,13 @@
       "counties": "../data/components/counties_ne_wy.geojson",
       "states": "../data/components/states_context.geojson",
       "lakeMcConaughy": "../data/components/lake_mcconaughy.geojson"
+    },
+
+    "perimeter": {
+      "url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services/WFIGS_Interagency_Perimeters_Current/FeatureServer/0",
+      "where": "attr_POOState = 'US-NE' AND attr_IncidentSize > 100000",
+      "label": "Fire perimeter",
+      "sublabel": "NIFC · live"
     }
   }
 }
