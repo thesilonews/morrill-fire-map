@@ -71,7 +71,7 @@ const map = new maplibregl.Map({
     sources: {
       protomaps: {
         type: 'vector',
-        url: 'https://api.protomaps.com/tiles/v4.json?key=1003762824b9687f',
+        url: 'https://api.protomaps.com/tiles/v4.json?key=e95d81ed96e3e784',
         attribution: '© <a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>',
       },
     },
