@@ -123,20 +123,10 @@
     },
 
     "parcels": {
-      "pmtilesUrl": null,
-      "arcgisSources": [
-        {
-          "county": "Morrill",
-          "url": "https://gis2.gworks.com/arcgis/rest/services/Morrill_County_NE_Assessor_Sub/MapServer/1"
-        },
-        {
-          "county": "Garden",
-          "url": "https://gis2.gworks.com/arcgis/rest/services/Garden_County_NE_Assessor_Sub/MapServer/8"
-        }
-      ],
+      "pmtilesUrl": "../data/components/parcels_morrill_garden.pmtiles",
       "label": "Property lines",
       "sublabel": "Morrill + Garden County parcels",
-      "minZoom": 13,
+      "minZoom": 10,
       "defaultOn": false,
       "disclaimer": "Parcel boundaries from county records. May not reflect recent sales. For legal purposes, contact Morrill County Assessor."
     },

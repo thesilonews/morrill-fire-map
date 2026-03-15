@@ -45,6 +45,8 @@ if (ASSETS_BASE) {
   goesTimelapse.url = rewrite(goesTimelapse.url)
   if (goesFdc) goesFdc.geojson = rewrite(goesFdc.geojson)
   if (buildings.geojson) buildings.geojson = rewrite(buildings.geojson)
+  const { parcels } = CONFIG.layers
+  if (parcels.pmtilesUrl) parcels.pmtilesUrl = rewrite(parcels.pmtilesUrl)
   reference.counties = rewrite(reference.counties)
   reference.states   = rewrite(reference.states)
   reference.lakeMcConaughy = rewrite(reference.lakeMcConaughy)
