@@ -1,0 +1,150 @@
+{
+  "fire": {
+    "name": "Morrill County Fire",
+    "state": "Nebraska",
+    "headline": "Nebraska's Largest Wildfire: Mapping the Morrill County Fire",
+    "deck": "A wildfire that started March 12, 2026 burned more than 450,000 acres across western Nebraska — more than any single fire in state history. Explore satellite imagery, fire detections, and what burned near you.",
+    "about": "This map uses satellite data from NASA and the European Space Agency to show where the Morrill County Fire burned. Orange and red dots mark areas where satellites detected active fire on three separate passes between March 12 and 14. The burned area is estimated from infrared satellite imagery that can see through smoke. Building locations come from publicly available mapping data. This is not an official damage assessment — for that, contact Morrill County Emergency Management.",
+    "startDate": "2026-03-12",
+    "endDate": null,
+    "acreage": 453299,
+    "contained": false,
+    "containedPct": 0,
+    "cause": "Accidental — dead tree blown into power line",
+    "fatalities": 1,
+    "counties": ["Morrill", "Garden", "Arthur", "Keith"],
+    "emergencyContact": "Morrill County Emergency Management — (308) 262-1222",
+    "lastUpdated": "2026-03-14T06:00:00-06:00",
+    "attribution": "NASA FIRMS, ESA Copernicus, Overture Maps Foundation"
+  },
+
+  "map": {
+    "center": [-102.8, 41.75],
+    "zoom": 8,
+    "minZoom": 6,
+    "maxZoom": 17,
+    "bounds": [[-106.0, 40.0], [-100.0, 44.0]]
+  },
+
+  "layers": {
+    "satellite": [
+      {
+        "id": "s2-truecolor",
+        "label": "Day of the fire",
+        "sublabel": "Mar 13 · Sentinel-2",
+        "type": "raster-cog",
+        "url": "../data/components/s2_mosaic_20260313_truecolor.tif",
+        "r2Key": "morrill-2026-03/s2_mosaic_20260313_truecolor_cog.tif",
+        "default": true
+      },
+      {
+        "id": "s2-swir",
+        "label": "Burn scar visible",
+        "sublabel": "Mar 13 · Infrared",
+        "type": "raster-cog",
+        "url": "../data/components/s2_mosaic_20260313_swir_burnscar.tif",
+        "r2Key": "morrill-2026-03/s2_mosaic_20260313_swir_burnscar_cog.tif",
+        "legendNote": "Red and orange areas are scorched. Darker red = more severe burn."
+      },
+      {
+        "id": "modis-truecolor",
+        "label": "Before the fire",
+        "sublabel": "Mar 13 · NASA MODIS",
+        "type": "raster-cog",
+        "url": "../data/components/modis_truecolor_terra_20260313_corrected.tif",
+        "r2Key": "morrill-2026-03/modis_truecolor_terra_20260313_corrected_cog.tif"
+      }
+    ],
+
+    "firePasses": [
+      {
+        "id": "pass-0",
+        "label": "Mar 12 · 3:30 PM",
+        "sublabel": "Afternoon",
+        "datetime": "2026-03-12T15:30:00-06:00",
+        "satellite": "Aqua (MODIS)",
+        "pointCount": 63,
+        "maxFrpMw": 513,
+        "geojson": "../data/components/frp_early_aqua_20260312T2130Z.geojson"
+      },
+      {
+        "id": "pass-1",
+        "label": "Mar 13 · 9:15 PM",
+        "sublabel": "Night — peak intensity",
+        "datetime": "2026-03-13T21:15:00-06:00",
+        "satellite": "Terra (MODIS)",
+        "pointCount": 301,
+        "maxFrpMw": 907,
+        "geojson": "../data/components/frp_peak_terra_20260313T0315Z.geojson",
+        "default": true
+      },
+      {
+        "id": "pass-2",
+        "label": "Mar 14 · 3:50 AM",
+        "sublabel": "Pre-dawn",
+        "datetime": "2026-03-14T03:50:00-06:00",
+        "satellite": "Terra (MODIS)",
+        "pointCount": 37,
+        "maxFrpMw": 477,
+        "geojson": "../data/components/frp_march14_terra_20260314T0950Z.geojson"
+      }
+    ],
+
+    "goesTimelapse": {
+      "url": "../data/timelapse/goes18_natural_color_timelapse.mp4",
+      "r2Key": "morrill-2026-03/goes18_natural_color_timelapse.mp4",
+      "startDatetime": "2026-03-12T13:00:00-06:00",
+      "frameDurationSec": 300,
+      "frameCount": 88,
+      "label": "Watch the fire develop — March 12",
+      "sublabel": "88 frames · 5-min intervals · 10-hour record",
+      "coordinates": [
+        [-106.5, 43.5],
+        [-100.0, 43.5],
+        [-100.0, 40.0],
+        [-106.5, 40.0]
+      ]
+    },
+
+    "goesFdc": {
+      "geojson": "../data/components/goes18_fdc_20260312-13_fire_detections.geojson",
+      "label": "GOES weather satellite detections",
+      "sublabel": "364 detections · Mar 12–13",
+      "defaultOn": false
+    },
+
+    "buildings": {
+      "pmtilesUrl": null,
+      "geojson": "../data/components/overture_buildings_fire_area.geojson",
+      "label": "Buildings",
+      "sublabel": "39,000+ structures",
+      "minZoom": 12,
+      "defaultOn": false
+    },
+
+    "parcels": {
+      "pmtilesUrl": null,
+      "arcgisSources": [
+        {
+          "county": "Morrill",
+          "url": "https://gis2.gworks.com/arcgis/rest/services/Morrill_County_NE_Assessor_Sub/MapServer/1"
+        },
+        {
+          "county": "Garden",
+          "url": "https://gis2.gworks.com/arcgis/rest/services/Garden_County_NE_Assessor_Sub/MapServer/8"
+        }
+      ],
+      "label": "Property lines",
+      "sublabel": "Morrill + Garden County parcels",
+      "minZoom": 13,
+      "defaultOn": false,
+      "disclaimer": "Parcel boundaries from county records. May not reflect recent sales. For legal purposes, contact Morrill County Assessor."
+    },
+
+    "reference": {
+      "counties": "../data/components/counties_ne_wy.geojson",
+      "states": "../data/components/states_context.geojson",
+      "lakeMcConaughy": "../data/components/lake_mcconaughy.geojson"
+    }
+  }
+}

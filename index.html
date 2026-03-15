@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Morrill County Fire Map | The Silo</title>
+  <meta name="description" content="Interactive satellite map of the Morrill County Fire — Nebraska's largest wildfire in recorded history." />
+  <meta property="og:title" content="Nebraska's Largest Wildfire: Mapping the Morrill County Fire" />
+  <meta property="og:description" content="Explore satellite imagery, fire detections, and what burned near you." />
+  <link rel="stylesheet" href="src/style.css" />
+  <link rel="preconnect" href="https://protomaps.github.io" />
+</head>
+<body>
+  <!-- Header -->
+  <header id="map-header">
+    <div id="header-brand">
+      <span class="brand-name">The Silo</span>
+      <span class="brand-sep">·</span>
+      <span class="brand-label">Fire Tracker</span>
+    </div>
+    <div id="fire-badge">
+      <span id="badge-acreage">453,000 acres</span>
+      <span class="badge-sep">·</span>
+      <span id="badge-tagline">Largest wildfire in Nebraska history</span>
+    </div>
+  </header>
+
+  <!-- Map container -->
+  <div id="map"></div>
+
+  <!-- Left control panel -->
+  <aside id="panel" class="panel-open">
+    <button id="panel-toggle" aria-label="Collapse panel">‹</button>
+
+    <div id="panel-content">
+      <!-- Find my property -->
+      <div class="panel-section" id="search-section">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="Find my property…" autocomplete="off" />
+          <button id="search-btn" aria-label="Search">→</button>
+        </div>
+      </div>
+
+      <!-- Satellite imagery (radio) -->
+      <div class="panel-section">
+        <div class="section-header collapsible" data-target="satellite-group">
+          <span>Satellite Imagery</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div id="satellite-group" class="layer-group"></div>
+      </div>
+
+      <!-- Fire activity (toggles) -->
+      <div class="panel-section">
+        <div class="section-header collapsible" data-target="fire-group">
+          <span>Fire Activity</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div id="fire-group" class="layer-group">
+          <label class="layer-row" id="fire-passes-row">
+            <div class="layer-toggle-wrap">
+              <input type="checkbox" id="toggle-fire-passes" checked />
+              <span class="toggle-track"></span>
+            </div>
+            <div class="layer-meta">
+              <span class="layer-label">Fire detections — satellite passes</span>
+              <span class="layer-sub">3 snapshots, March 12–14 · use timeline below</span>
+            </div>
+          </label>
+          <label class="layer-row">
+            <div class="layer-toggle-wrap">
+              <input type="checkbox" id="toggle-goes-fdc" />
+              <span class="toggle-track"></span>
+            </div>
+            <div class="layer-meta">
+              <span class="layer-label">GOES weather satellite detections</span>
+              <span class="layer-sub" id="goes-fdc-sub"></span>
+            </div>
+          </label>
+          <div class="layer-row timelapse-row" id="timelapse-btn-row">
+            <div class="layer-meta">
+              <span class="layer-label" id="timelapse-label"></span>
+              <span class="layer-sub" id="timelapse-sub"></span>
+            </div>
+            <button id="timelapse-open-btn">Watch ▶</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buildings & land -->
+      <div class="panel-section">
+        <div class="section-header collapsible" data-target="buildings-group">
+          <span>Buildings &amp; Land</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div id="buildings-group" class="layer-group">
+          <label class="layer-row">
+            <div class="layer-toggle-wrap">
+              <input type="checkbox" id="toggle-buildings" />
+              <span class="toggle-track"></span>
+            </div>
+            <div class="layer-meta">
+              <span class="layer-label">Buildings</span>
+              <span class="layer-sub">Zoom in to see individual structures</span>
+            </div>
+          </label>
+          <label class="layer-row">
+            <div class="layer-toggle-wrap">
+              <input type="checkbox" id="toggle-parcels" />
+              <span class="toggle-track"></span>
+            </div>
+            <div class="layer-meta">
+              <span class="layer-label">Property lines</span>
+              <span class="layer-sub">Zoom to street level to load</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- About -->
+      <div class="panel-section">
+        <div class="section-header collapsible" data-target="about-group">
+          <span>About this map</span>
+          <span class="chevron">▾</span>
+        </div>
+        <div id="about-group" class="layer-group about-text">
+          <p id="about-body"></p>
+          <p class="data-timestamp" id="data-timestamp"></p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Mini legend (always visible) -->
+  <div id="mini-legend">
+    <div class="legend-title">Fire intensity</div>
+    <div class="legend-row"><span class="legend-dot" style="background:#F5A623"></span> Low</div>
+    <div class="legend-row"><span class="legend-dot" style="background:#FF6B00"></span> Moderate</div>
+    <div class="legend-row"><span class="legend-dot" style="background:#FF2200"></span> High</div>
+    <div class="legend-row"><span class="legend-dot dot-white"></span> Extreme</div>
+  </div>
+
+  <!-- Bottom time bar -->
+  <div id="time-bar">
+    <button id="pass-prev" class="pass-btn" aria-label="Previous pass">‹</button>
+    <button id="pass-play" class="pass-btn" aria-label="Play through passes">▶</button>
+    <div id="pass-stepper">
+      <!-- Populated by timeslider.js -->
+    </div>
+    <button id="pass-next" class="pass-btn" aria-label="Next pass">›</button>
+    <div id="pass-label-display"></div>
+  </div>
+
+  <!-- GOES timelapse PiP player -->
+  <div id="goes-player" class="hidden">
+    <div id="goes-player-header">
+      <span id="goes-player-title"></span>
+      <div class="goes-player-controls">
+        <select id="goes-speed">
+          <option value="1">1×</option>
+          <option value="2">2×</option>
+          <option value="4" selected>4×</option>
+        </select>
+        <button id="goes-player-close" aria-label="Close">×</button>
+      </div>
+    </div>
+    <video id="goes-video" muted playsinline></video>
+    <div id="goes-scrubber-wrap">
+      <input type="range" id="goes-scrubber" min="0" max="100" value="0" />
+      <div id="goes-time-label"></div>
+    </div>
+  </div>
+
+  <!-- Popup card -->
+  <div id="popup-card" class="hidden">
+    <button id="popup-close">×</button>
+    <div id="popup-body"></div>
+  </div>
+
+  <!-- Intro modal -->
+  <div id="intro-overlay" class="hidden">
+    <div id="intro-modal">
+      <div id="intro-cards">
+        <!-- Populated by JS -->
+      </div>
+      <div id="intro-nav">
+        <button id="intro-back" class="hidden">← Back</button>
+        <button id="intro-skip">Skip to map</button>
+        <button id="intro-next">Next →</button>
+      </div>
+      <div id="intro-dots"></div>
+    </div>
+  </div>
+
+  <!-- Help button -->
+  <button id="help-btn" aria-label="Help">?</button>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
