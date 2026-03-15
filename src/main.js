@@ -100,6 +100,13 @@ map.addControl(new maplibregl.NavigationControl({ showCompass: true }), 'top-rig
 map.addControl(new maplibregl.ScaleControl({ unit: 'imperial' }), 'bottom-right')
 map.addControl(new maplibregl.AttributionControl({ compact: true }), 'bottom-right')
 
+// ── Mobile: start panel peeked, set camera padding ──────────────
+if (window.innerWidth < 768) {
+  const panel = document.getElementById('panel')
+  if (panel) panel.classList.remove('panel-open')
+  // Camera will be set by fitBounds after perimeter loads
+}
+
 // ── Wire up all layers and UI after map loads ───────────────────
 map.on('load', async () => {
   // Reference layers (counties, lake, states)
@@ -127,7 +134,8 @@ map.on('load', async () => {
   await addGoesFdcLayer(map, CONFIG.layers.goesFdc)
 
   // NIFC live perimeter — updates acreage badge if a matching perimeter is found
-  const perimProps = await addPerimeterLayer(map, CONFIG.layers.perimeter)
+  const perimResult = await addPerimeterLayer(map, CONFIG.layers.perimeter)
+  const perimProps = perimResult?.properties ?? perimResult  // backwards compat
   if (perimProps?.poly_GISAcres) {
     const acres = Math.round(perimProps.poly_GISAcres).toLocaleString()
     document.getElementById('badge-acreage').textContent = `${acres} acres`
@@ -137,6 +145,14 @@ map.on('load', async () => {
       : 'live'
     document.getElementById('data-timestamp').textContent =
       `Perimeter: ${acres} acres · ${pct}% contained · NIFC (${updated}) · ${CONFIG.fire.attribution}`
+  }
+
+  // On mobile, fit to the full perimeter extent so the whole fire is visible
+  if (window.innerWidth < 768 && perimResult?.bbox) {
+    map.fitBounds(perimResult.bbox, {
+      padding: { top: 40, bottom: 80, left: 24, right: 24 },
+      duration: 0,
+    })
   }
 
   // ── UI modules ─────────────────────────────────────────────

@@ -53,6 +53,32 @@ export async function addPerimeterLayer(map, config) {
     },
   }, 'place-labels')
 
-  // Return first feature props so caller can update acreage badge
-  return geojson.features[0]?.properties ?? null
+  // Compute bounding box from all feature coordinates
+  let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity
+  for (const feature of geojson.features) {
+    const coords = flattenCoords(feature.geometry)
+    for (const [lng, lat] of coords) {
+      if (lng < minLng) minLng = lng
+      if (lng > maxLng) maxLng = lng
+      if (lat < minLat) minLat = lat
+      if (lat > maxLat) maxLat = lat
+    }
+  }
+  const bbox = [[minLng, minLat], [maxLng, maxLat]]
+
+  return {
+    properties: geojson.features[0]?.properties ?? null,
+    bbox,
+  }
+}
+
+function flattenCoords(geometry) {
+  const out = []
+  function walk(c) {
+    if (!Array.isArray(c)) return
+    if (typeof c[0] === 'number') { out.push(c); return }
+    c.forEach(walk)
+  }
+  walk(geometry.coordinates)
+  return out
 }

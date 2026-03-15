@@ -699,37 +699,115 @@ input[type="checkbox"]:checked ~ .toggle-track::after {
 }
 .maplibregl-popup-tip { display: none; }
 
+/* Hide mobile-only elements on desktop */
+.panel-drag-handle,
+.panel-peek-label { display: none; }
+
 /* ─── Mobile ────────────────────────────────────────────────── */
 @media (max-width: 767px) {
+  /* Header: hide acreage badge, shrink subscribe to icon */
+  #fire-badge { display: none; }
+  #header-subscribe {
+    width: 32px; height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  #header-subscribe::before { content: '✉'; font-size: 15px; }
+
+  /* Panel: bottom sheet */
   #panel {
     width: 100%;
     top: auto;
     bottom: var(--timebar-h);
-    height: 60vh;
+    height: 65vh;
     border-right: none;
     border-top: 1px solid var(--border);
-    transform: translateY(calc(100% - 56px));
-    transition: transform 0.3s ease;
+    transform: translateY(calc(100% - 52px));
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
-  #panel.panel-open  { transform: translateY(0); }
-  #panel.panel-half  { transform: translateY(50%); }
+  #panel.panel-open { transform: translateY(0); }
+  #panel.panel-half { transform: translateY(50%); }
+  #panel.dragging   { transition: none; }
   #panel-toggle { display: none; }
 
+  /* Drag handle + peek label */
   .panel-drag-handle {
-    width: 40px;
-    height: 4px;
+    width: 36px; height: 4px;
     background: var(--border);
     border-radius: 2px;
-    margin: 10px auto 6px;
+    margin: 10px auto 0;
+    flex-shrink: 0;
   }
+  .panel-peek-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 34px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    cursor: pointer;
+  }
+  .panel-peek-chevron {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    font-style: normal;
+  }
+  #panel.panel-open .panel-peek-chevron,
+  #panel.panel-half .panel-peek-chevron { transform: rotate(180deg); }
 
-  #mini-legend { left: 12px; }
+  /* Legend and popup: clear the 52px peek strip */
+  #mini-legend {
+    left: 12px;
+    bottom: calc(var(--timebar-h) + 52px + 10px);
+    transition: opacity 0.2s;
+  }
+  #panel.panel-open ~ #mini-legend,
+  #panel.panel-half ~ #mini-legend { opacity: 0; pointer-events: none; }
+
   #goes-player { left: 12px; right: 12px; width: auto; bottom: calc(var(--timebar-h) + 60px); }
-  #popup-card { left: 12px; right: 12px; width: auto; bottom: calc(var(--timebar-h) + 12px); }
+
+  #popup-card {
+    left: 12px; right: 12px; width: auto;
+    bottom: calc(var(--timebar-h) + 52px + 10px);
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+  #panel.panel-open ~ #popup-card,
+  #panel.panel-half ~ #popup-card { display: none; }
+
   #help-btn { display: none; }
 
+  /* Pass stepper: larger touch targets, show active label above dot */
+  .pass-stop {
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    padding: 0;
+  }
   .pass-stop-label { display: none; }
-  #pass-label-display { display: block; }
+  .pass-stop.active .pass-stop-label {
+    display: block;
+    position: absolute;
+    bottom: calc(100% + 4px);
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 10px;
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .pass-stop { position: relative; }
+
+  #pass-label-display { display: none; }
 }
 
 @media (prefers-color-scheme: light) {

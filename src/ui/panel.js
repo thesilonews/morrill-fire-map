@@ -109,8 +109,102 @@ export function initPanel(map, config) {
     })
   })
 
-  // ── Panel collapse toggle ──────────────────────────────────
+  // ── Panel collapse toggle (desktop) ───────────────────────
   document.getElementById('panel-toggle').addEventListener('click', () => {
     document.getElementById('panel').classList.toggle('panel-collapsed')
   })
+
+  // ── Mobile bottom-sheet drag ───────────────────────────────
+  initMobilePanelDrag()
+}
+
+function initMobilePanelDrag() {
+  const panel = document.getElementById('panel')
+  const peekLabel = document.getElementById('panel-peek-label')
+  if (!panel) return
+
+  let startY = 0
+  let startTranslate = 0
+  let isDragging = false
+
+  function getTranslateY(el) {
+    const style = window.getComputedStyle(el)
+    const matrix = new DOMMatrix(style.transform)
+    return matrix.m42
+  }
+
+  function snapPanel(velocityY) {
+    const translate = getTranslateY(panel)
+    const panelH = panel.offsetHeight
+    // Snap thresholds: open = 0, half = 50%, closed = ~100% - 52px peek
+    const openThresh  = panelH * 0.25
+    const halfThresh  = panelH * 0.65
+
+    panel.classList.remove('dragging')
+
+    if (velocityY > 400 || translate > halfThresh) {
+      // Flick down or dragged past half → close to peek
+      panel.classList.remove('panel-open', 'panel-half')
+    } else if (velocityY < -400 || translate < openThresh) {
+      // Flick up or dragged near top → open
+      panel.classList.remove('panel-half')
+      panel.classList.add('panel-open')
+    } else {
+      // Middle zone → half
+      panel.classList.remove('panel-open')
+      panel.classList.add('panel-half')
+    }
+  }
+
+  let lastY = 0
+  let lastTime = 0
+  let velocityY = 0
+
+  panel.addEventListener('touchstart', e => {
+    // Only initiate drag from the drag handle area (top 52px of panel)
+    const touch = e.touches[0]
+    const rect = panel.getBoundingClientRect()
+    if (touch.clientY - rect.top > 52) return
+
+    isDragging = true
+    startY = touch.clientY
+    startTranslate = getTranslateY(panel)
+    lastY = touch.clientY
+    lastTime = Date.now()
+    velocityY = 0
+    panel.classList.add('dragging')
+  }, { passive: true })
+
+  panel.addEventListener('touchmove', e => {
+    if (!isDragging) return
+    const touch = e.touches[0]
+    const now = Date.now()
+    const dt = now - lastTime || 16
+    velocityY = ((touch.clientY - lastY) / dt) * 1000
+    lastY = touch.clientY
+    lastTime = now
+
+    const delta = touch.clientY - startY
+    const newTranslate = Math.max(0, startTranslate + delta)
+    panel.style.transform = `translateY(${newTranslate}px)`
+  }, { passive: true })
+
+  panel.addEventListener('touchend', () => {
+    if (!isDragging) return
+    isDragging = false
+    panel.style.transform = ''
+    snapPanel(velocityY)
+  })
+
+  // Tap on peek label to open
+  if (peekLabel) {
+    peekLabel.addEventListener('click', () => {
+      if (panel.classList.contains('panel-open')) {
+        panel.classList.remove('panel-open', 'panel-half')
+      } else {
+        panel.classList.add('panel-open')
+        panel.classList.remove('panel-half')
+      }
+    })
+  }
 }
