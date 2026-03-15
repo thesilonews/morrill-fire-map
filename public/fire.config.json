@@ -33,7 +33,7 @@
         "label": "Day of the fire",
         "sublabel": "Mar 13 · Sentinel-2",
         "type": "raster-cog",
-        "url": "../data/components/s2_mosaic_20260313_truecolor.tif",
+        "url": "../data/components/cog_s2_mosaic_20260313_truecolor.tif",
         "r2Key": "morrill-2026-03/s2_mosaic_20260313_truecolor_cog.tif",
         "default": true
       },
@@ -42,7 +42,7 @@
         "label": "Burn scar visible",
         "sublabel": "Mar 13 · Infrared",
         "type": "raster-cog",
-        "url": "../data/components/s2_mosaic_20260313_swir_burnscar.tif",
+        "url": "../data/components/cog_s2_mosaic_20260313_swir_burnscar.tif",
         "r2Key": "morrill-2026-03/s2_mosaic_20260313_swir_burnscar_cog.tif",
         "legendNote": "Red and orange areas are scorched. Darker red = more severe burn."
       },
@@ -51,7 +51,7 @@
         "label": "Before the fire",
         "sublabel": "Mar 13 · NASA MODIS",
         "type": "raster-cog",
-        "url": "../data/components/modis_truecolor_terra_20260313_corrected.tif",
+        "url": "../data/components/cog_modis_truecolor_terra_20260313_corrected.tif",
         "r2Key": "morrill-2026-03/modis_truecolor_terra_20260313_corrected_cog.tif"
       }
     ],
