@@ -10,9 +10,11 @@ const FRP_MIN = 50
 const FRP_MAX = 950
 
 // Log-scale radius interpolation: 4px at 50 MW → 18px at 907 MW
+const frpValue = ['coalesce', ['to-number', ['get', 'frp_mw'], FRP_MIN], FRP_MIN]
+
 const circleRadius = [
   'interpolate', ['exponential', 2],
-  ['max', ['get', 'frp_mw'], FRP_MIN],
+  ['max', frpValue, FRP_MIN],
   FRP_MIN, 4,
   150,  7,
   400,  12,
@@ -22,7 +24,7 @@ const circleRadius = [
 // 4-stop color ramp: amber → orange → red-orange → white-hot
 const circleColor = [
   'interpolate', ['linear'],
-  ['max', ['get', 'frp_mw'], FRP_MIN],
+  ['max', frpValue, FRP_MIN],
   FRP_MIN, '#F5A623',
   150,     '#FF6B00',
   400,     '#FF2200',

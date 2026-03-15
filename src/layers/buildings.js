@@ -71,7 +71,7 @@ export async function addBuildingsLayer(map, config) {
 }
 
 export async function addParcelsLayer(map, config) {
-  if (!config || (!config.pmtilesUrl && !config.arcgisUrl)) return
+  if (!config || (!config.pmtilesUrl && !config.arcgisUrl && !config.arcgisSources)) return
 
   if (config.pmtilesUrl) {
     map.addSource('parcels', {
