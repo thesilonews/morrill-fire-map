@@ -55,6 +55,24 @@
         "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]]
       },
       {
+        "id": "s2-mar15-truecolor",
+        "label": "3 days later — partial view",
+        "sublabel": "Mar 15 · 11:29 AM MT · Sentinel-2",
+        "type": "image",
+        "url": "../data/components/s2_mosaic_20260315_truecolor.png",
+        "coordinates": [[-103.82,43.35],[-101.2,43.35],[-101.2,40.5],[-103.82,40.5]],
+        "legendNote": "Partial coverage — clouds obscure the western burn area. Eastern scar and Lake McConaughy visible."
+      },
+      {
+        "id": "s2-mar15-swir",
+        "label": "3 days later — burn scar · partial",
+        "sublabel": "Mar 15 · 11:29 AM MT · Infrared",
+        "type": "image",
+        "url": "../data/components/s2_mosaic_20260315_swir_burnscar.png",
+        "coordinates": [[-103.82,43.35],[-101.2,43.35],[-101.2,40.5],[-103.82,40.5]],
+        "legendNote": "Red and orange areas are scorched. Partial coverage — fire was out by March 15."
+      },
+      {
         "id": "esri-satellite",
         "label": "Before the fire",
         "sublabel": "Esri · pre-fire satellite",
