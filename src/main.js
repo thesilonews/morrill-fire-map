@@ -14,6 +14,7 @@ import maplibregl from 'maplibre-gl'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { Protocol } from 'pmtiles'
 import { cogProtocol } from '@geomatico/maplibre-cog-protocol'
+import { inject } from '@vercel/analytics'
 
 import { initPanel } from './ui/panel.js'
 import { initTimeSlider } from './ui/timeslider.js'
@@ -25,6 +26,9 @@ import { addFirePointLayers, showFirePass, addGoesFdcLayer } from './layers/fire
 import { addBuildingsLayer, addParcelsLayer } from './layers/buildings.js'
 import { addReferenceLayers } from './layers/reference.js'
 import { addPerimeterLayer } from './layers/perimeter.js'
+
+// ── Initialize Vercel Web Analytics ─────────────────────────────
+inject()
 
 // ── Register protocols ──────────────────────────────────────────
 const pmtilesProtocol = new Protocol()
