@@ -8,9 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@geomatico/maplibre-cog-protocol": "^0.8.0",
+    "@vercel/analytics": "^2.0.1",
     "maplibre-gl": "^4.7.1",
-    "pmtiles": "^3.2.1",
-    "@geomatico/maplibre-cog-protocol": "^0.8.0"
+    "pmtiles": "^3.2.1"
   },
   "devDependencies": {
     "vite": "^5.4.0"
