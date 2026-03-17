@@ -66,8 +66,14 @@ export async function addPerimeterLayer(map, config) {
   }
   const bbox = [[minLng, minLat], [maxLng, maxLat]]
 
+  // Use the feature with the largest poly_GISAcres for badge/metadata.
+  // The query may return multiple Nebraska fires; we always want the Morrill fire.
+  const largest = geojson.features.reduce((best, f) =>
+    (f.properties?.poly_GISAcres ?? 0) > (best.properties?.poly_GISAcres ?? 0) ? f : best
+  , geojson.features[0])
+
   return {
-    properties: geojson.features[0]?.properties ?? null,
+    properties: largest.properties ?? null,
     bbox,
   }
 }
