@@ -3,18 +3,18 @@
     "name": "Morrill County Fire",
     "state": "Nebraska",
     "headline": "Nebraska's Largest Wildfire: Mapping the Morrill County Fire",
-    "deck": "A wildfire that started March 12, 2026 burned more than 450,000 acres across western Nebraska — more than any single fire in state history. Explore satellite imagery, fire detections, and what burned near you.",
+    "deck": "A wildfire that started March 12, 2026 has burned more than 703,000 acres across western Nebraska — more than any single fire in state history. Explore satellite imagery, fire detections, and what burned near you.",
     "about": "This map uses satellite data from NASA and the European Space Agency to show where the Morrill County Fire burned. Orange and red dots mark areas where satellites detected active fire on three separate passes between March 12 and 14. The burned area is estimated from infrared satellite imagery that can see through smoke. Building locations come from publicly available mapping data. This is not an official damage assessment — for that, contact Morrill County Emergency Management.",
     "startDate": "2026-03-12",
     "endDate": null,
-    "acreage": 453299,
+    "acreage": 703343,
     "contained": false,
-    "containedPct": 0,
-    "cause": "Accidental — dead tree blown into power line",
+    "containedPct": 18,
+    "cause": "Accidental — electrical, downed power line near Angora",
     "fatalities": 1,
     "counties": ["Morrill", "Garden", "Arthur", "Keith"],
     "emergencyContact": "Morrill County Emergency Management — (308) 262-1222",
-    "lastUpdated": "2026-03-14T06:00:00-06:00",
+    "lastUpdated": "2026-03-16T12:00:00-06:00",
     "attribution": "NASA FIRMS, ESA Copernicus, Overture Maps Foundation"
   },
 
@@ -161,9 +161,9 @@
     },
 
     "parcels": {
-      "pmtilesUrl": "../data/components/parcels_morrill_garden.pmtiles",
+      "pmtilesUrl": "../data/components/parcels_fire_counties.pmtiles",
       "label": "Property lines",
-      "sublabel": "Morrill + Garden County parcels",
+      "sublabel": "Morrill, Garden, Arthur + Keith County parcels",
       "minZoom": 10,
       "defaultOn": false,
       "disclaimer": "Parcel boundaries from county records. May not reflect recent sales. For legal purposes, contact Morrill County Assessor."
