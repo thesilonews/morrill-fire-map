@@ -113,7 +113,7 @@
         "type": "image",
         "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/sar_change_detection_mar11_vs_mar18.png",
         "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]],
-        "legendNote": "Radar change detection — sees through clouds. Red = decreased backscatter (burned vegetation, bare ground)."
+        "legendNote": "Radar change detection masked to NIFC fire perimeter. Red = burned (decreased backscatter). Gray patches = areas within the perimeter that were preserved."
       },
       {
         "id": "esri-satellite",
