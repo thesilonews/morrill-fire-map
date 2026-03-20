@@ -112,8 +112,8 @@
         "sublabel": "Mar 11 vs Mar 18 · Sentinel-1 · radar",
         "type": "image",
         "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/sar_change_detection_mar11_vs_mar18.png",
-        "coordinates": [[-105.5,43.5],[-101.5,43.5],[-101.5,40.8],[-105.5,40.8]],
-        "legendNote": "Radar change detection — sees through clouds. Red = increased backscatter (burned vegetation). Blue = decreased backscatter."
+        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]],
+        "legendNote": "Radar change detection — sees through clouds. Red = decreased backscatter (burned vegetation, bare ground)."
       },
       {
         "id": "esri-satellite",
