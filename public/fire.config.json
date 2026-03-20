@@ -75,22 +75,36 @@
         "legendNote": "Red and orange areas are scorched. Partial coverage — fire was out by March 15."
       },
       {
-        "id": "l9-mar16-truecolor",
-        "label": "4 days later — Landsat 9",
-        "sublabel": "Mar 16 · Landsat 9 · 30m · 5% cloud",
+        "id": "modis-mar16",
+        "label": "4 days later — MODIS",
+        "sublabel": "Mar 16 · MODIS Terra · 250m · 6% cloud",
         "type": "image",
-        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/landsat9_2026-03-16_truecolor.png",
-        "coordinates": [[-105.5,43.5],[-101.5,43.5],[-101.5,40.8],[-105.5,40.8]],
-        "legendNote": "Landsat 9 true color. 30m resolution, post-fire. Eastern portion of coverage area."
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/modis_terra_2026-03-16_corrected.png",
+        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]]
       },
       {
-        "id": "l9-mar16-swir",
-        "label": "4 days later — burn scar · Landsat 9",
-        "sublabel": "Mar 16 · Landsat 9 · SWIR infrared",
+        "id": "modis-mar17",
+        "label": "5 days later — MODIS",
+        "sublabel": "Mar 17 · MODIS Terra · 250m · clear",
         "type": "image",
-        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/landsat9_2026-03-16_swir_fire.png",
-        "coordinates": [[-105.5,43.5],[-101.5,43.5],[-101.5,40.8],[-105.5,40.8]],
-        "legendNote": "SWIR fire composite shows burn severity. Red/orange = scorched ground."
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/modis_terra_2026-03-17_corrected.png",
+        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]]
+      },
+      {
+        "id": "modis-mar18",
+        "label": "6 days later — MODIS",
+        "sublabel": "Mar 18 · MODIS Terra · 250m · clear",
+        "type": "image",
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/modis_terra_2026-03-18_corrected.png",
+        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]]
+      },
+      {
+        "id": "modis-mar19",
+        "label": "Latest — 1 day old",
+        "sublabel": "Mar 19 · MODIS Terra · 250m · clear",
+        "type": "image",
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/modis_terra_2026-03-19_corrected.png",
+        "coordinates": [[-103.4,42.5],[-101.4,42.5],[-101.4,40.9],[-103.4,40.9]]
       },
       {
         "id": "sar-change",
