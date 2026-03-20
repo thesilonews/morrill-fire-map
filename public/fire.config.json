@@ -93,6 +93,15 @@
         "legendNote": "SWIR fire composite shows burn severity. Red/orange = scorched ground."
       },
       {
+        "id": "sar-change",
+        "label": "SAR change detection",
+        "sublabel": "Mar 11 vs Mar 18 · Sentinel-1 · radar",
+        "type": "image",
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/sar_change_detection_mar11_vs_mar18.png",
+        "coordinates": [[-105.5,43.5],[-101.5,43.5],[-101.5,40.8],[-105.5,40.8]],
+        "legendNote": "Radar change detection — sees through clouds. Red = increased backscatter (burned vegetation). Blue = decreased backscatter."
+      },
+      {
         "id": "esri-satellite",
         "label": "Before the fire",
         "sublabel": "Esri · pre-fire satellite",
