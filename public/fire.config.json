@@ -168,6 +168,16 @@
         "pointCount": 5,
         "maxFrpMw": 260,
         "geojson": "../data/components/frp_mar14_terra_20260314T1550Z.geojson"
+      },
+      {
+        "id": "pass-4",
+        "label": "Mar 19 · last embers",
+        "sublabel": "7 days later — still smoldering",
+        "datetime": "2026-03-19T15:05:00-06:00",
+        "satellite": "Aqua (MODIS)",
+        "pointCount": 4,
+        "maxFrpMw": 31,
+        "geojson": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/frp_20260319.geojson"
       }
     ],
 
