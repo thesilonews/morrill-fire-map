@@ -3,18 +3,20 @@
     "name": "Morrill County Fire",
     "state": "Nebraska",
     "headline": "Nebraska's Largest Wildfire: Mapping the Morrill County Fire",
-    "deck": "A wildfire that started March 12, 2026 has burned more than 643,000 acres across western Nebraska — more than any single fire in state history. Explore satellite imagery, fire detections, and what burned near you.",
+    "deck": "A wildfire that started March 12, 2026 burned more than 642,000 acres across western Nebraska — more than any single fire in state history. The fire is now 98% contained. Explore satellite imagery, fire detections, and what burned near you.",
     "about": "This map uses satellite data from NASA and the European Space Agency to show where the Morrill County Fire burned. Orange and red dots mark areas where satellites detected active fire on three separate passes between March 12 and 14. The burned area is estimated from infrared satellite imagery that can see through smoke. Building locations come from publicly available mapping data. This is not an official damage assessment — for that, contact Morrill County Emergency Management.",
     "startDate": "2026-03-12",
     "endDate": null,
-    "acreage": 643361,
-    "contained": false,
-    "containedPct": 18,
-    "cause": "Accidental — electrical, downed power line near Angora",
+    "acreage": 642036,
+    "contained": true,
+    "containedPct": 98,
+    "cause": "Undetermined",
     "fatalities": 1,
+    "incidentId": "2026-NENES-260157",
+    "estimatedCost": 3834007,
     "counties": ["Morrill", "Garden", "Arthur", "Keith"],
     "emergencyContact": "Morrill County Emergency Management — (308) 262-1222",
-    "lastUpdated": "2026-03-17T12:00:00-06:00",
+    "lastUpdated": "2026-03-20T12:00:00-06:00",
     "attribution": "NASA FIRMS, ESA Copernicus, Overture Maps Foundation"
   },
 
@@ -71,6 +73,24 @@
         "url": "../data/components/s2_mosaic_20260315_swir_burnscar.png",
         "coordinates": [[-103.82,43.35],[-101.2,43.35],[-101.2,40.5],[-103.82,40.5]],
         "legendNote": "Red and orange areas are scorched. Partial coverage — fire was out by March 15."
+      },
+      {
+        "id": "l9-mar16-truecolor",
+        "label": "4 days later — Landsat 9",
+        "sublabel": "Mar 16 · Landsat 9 · 30m · 5% cloud",
+        "type": "image",
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/landsat9_2026-03-16_truecolor.png",
+        "coordinates": [[-105.5,43.5],[-101.5,43.5],[-101.5,40.8],[-105.5,40.8]],
+        "legendNote": "Landsat 9 true color. 30m resolution, post-fire. Eastern portion of coverage area."
+      },
+      {
+        "id": "l9-mar16-swir",
+        "label": "4 days later — burn scar · Landsat 9",
+        "sublabel": "Mar 16 · Landsat 9 · SWIR infrared",
+        "type": "image",
+        "url": "https://storage.googleapis.com/silo-map-assets/morrill-2026-03/landsat9_2026-03-16_swir_fire.png",
+        "coordinates": [[-105.5,43.5],[-101.5,43.5],[-101.5,40.8],[-105.5,40.8]],
+        "legendNote": "SWIR fire composite shows burn severity. Red/orange = scorched ground."
       },
       {
         "id": "esri-satellite",
