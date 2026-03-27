@@ -813,3 +813,31 @@ input[type="checkbox"]:checked ~ .toggle-track::after {
 @media (prefers-color-scheme: light) {
   /* All map UI stays dark regardless — satellite imagery needs dark context */
 }
+
+/* ─── Band toggle pill ──────────────────────────────────────── */
+.band-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--border);
+  border-radius: 4px;
+  padding: 2px;
+  margin-top: 4px;
+}
+.band-btn {
+  background: none;
+  border: none;
+  color: var(--text-sub);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.band-btn:hover { color: var(--text); }
+.band-btn.active {
+  background: var(--accent);
+  color: #141E2A;
+  font-weight: 600;
+}

@@ -9,50 +9,144 @@ import { setBuildingsVisible, setParcelsVisible } from '../layers/buildings.js'
 export function initPanel(map, config) {
   const { satellite, firePasses, goesTimelapse, goesFdc } = config.layers
 
-  // ── Satellite radio group ──────────────────────────────────
+  // ── Satellite group+band panel ─────────────────────────────
   const satGroup = document.getElementById('satellite-group')
+
+  // Build group map: gk → [layers]
+  const groups = new Map()
   satellite.forEach(layer => {
-    const row = document.createElement('label')
-    row.className = 'layer-row sat-row'
-    row.innerHTML = `
-      <div class="sat-row-inner">
-        <input type="radio" name="satellite" value="${layer.id}" ${layer.default ? 'checked' : ''} />
-        <span class="toggle-track" style="border-radius:50%;width:20px;height:20px;flex-shrink:0"></span>
-        <div class="layer-meta">
-          <span class="layer-label">${layer.label}</span>
-          <span class="layer-sub">${layer.sublabel}</span>
-        </div>
-      </div>
-      ${layer.legendNote ? `<span class="layer-sub" style="padding-left:32px;display:block;font-size:11px">${layer.legendNote}</span>` : ''}
-    `
-    // Use a styled radio indicator instead of the input
-    const input = row.querySelector('input')
-    const indicator = row.querySelector('.toggle-track')
-    indicator.style.cssText = `
-      display:block;width:16px;height:16px;border-radius:50%;
-      border:2px solid var(--text-sub);background:var(--bg);
-      flex-shrink:0;transition:all 0.15s;cursor:pointer;
-    `
-    function updateIndicator() {
-      if (input.checked) {
-        indicator.style.borderColor = 'var(--accent)'
-        indicator.style.background = 'var(--accent)'
-      } else {
-        indicator.style.borderColor = 'var(--text-sub)'
-        indicator.style.background = 'var(--bg)'
+    const gk = layer.group || layer.id
+    if (!groups.has(gk)) groups.set(gk, [])
+    groups.get(gk).push(layer)
+  })
+
+  // Determine initial active group from the default-flagged layer
+  const defaultLayer = satellite.find(l => l.default) || satellite[0]
+  let activeGroup = defaultLayer.group || defaultLayer.id
+
+  // Per-group band state — default to 'swir' when available
+  const bandState = {}
+  groups.forEach((layers, gk) => {
+    const hasSwir = layers.some(l => l.band === 'swir')
+    bandState[gk] = hasSwir ? 'swir' : (layers[0].band || null)
+  })
+  if (defaultLayer.band) bandState[activeGroup] = defaultLayer.band
+
+  function activeLayerId(gk) {
+    const layers = groups.get(gk)
+    const band   = bandState[gk]
+    const match  = band ? layers.find(l => l.band === band) : null
+    return match ? match.id : layers[0].id
+  }
+
+  function updateIndicators() {
+    satGroup.querySelectorAll('.sat-row[data-group]').forEach(row => {
+      const gk     = row.dataset.group
+      const isActive = gk === activeGroup
+      const dot    = row.querySelector('.sat-indicator')
+      const toggle = row.querySelector('.band-toggle')
+      if (dot) {
+        dot.style.borderColor = isActive ? 'var(--accent)' : 'var(--text-sub)'
+        dot.style.background  = isActive ? 'var(--accent)' : 'var(--bg)'
       }
-    }
-    updateIndicator()
-    input.addEventListener('change', () => {
-      if (input.checked) {
-        showSatelliteLayer(map, layer.id, satellite)
-        satGroup.querySelectorAll('input[type=radio]').forEach(r => {
-          const ind = r.closest('.sat-row').querySelector('.toggle-track')
-          ind.style.borderColor = r.checked ? 'var(--accent)' : 'var(--text-sub)'
-          ind.style.background  = r.checked ? 'var(--accent)' : 'var(--bg)'
+      if (toggle) {
+        toggle.style.display = isActive ? 'flex' : 'none'
+        toggle.querySelectorAll('.band-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.band === bandState[gk])
         })
       }
     })
+  }
+
+  function selectGroup(gk) {
+    activeGroup = gk
+    showSatelliteLayer(map, activeLayerId(gk), satellite)
+    updateIndicators()
+  }
+
+  groups.forEach((layers, gk) => {
+    const first    = layers[0]
+    const hasBoth  = layers.some(l => l.band === 'swir') && layers.some(l => l.band === 'tc')
+    const isActive = gk === activeGroup
+
+    const row = document.createElement('div')
+    row.className = 'layer-row sat-row'
+    row.dataset.group = gk
+
+    // Dot indicator
+    const dot = document.createElement('div')
+    dot.className = 'sat-indicator'
+    dot.style.cssText = `
+      display:block;width:16px;height:16px;border-radius:50%;
+      border:2px solid ${isActive ? 'var(--accent)' : 'var(--text-sub)'};
+      background:${isActive ? 'var(--accent)' : 'var(--bg)'};
+      flex-shrink:0;transition:all 0.15s;
+    `
+
+    const meta = document.createElement('div')
+    meta.className = 'layer-meta'
+    meta.innerHTML = `
+      <span class="layer-label">${first.label}</span>
+      <span class="layer-sub">${first.sublabel}</span>
+    `
+
+    const inner = document.createElement('div')
+    inner.className = 'sat-row-inner'
+    inner.appendChild(dot)
+    inner.appendChild(meta)
+    row.appendChild(inner)
+
+    // Legend note — tracks active band
+    const initBandLayer = layers.find(l => l.band === bandState[gk]) || first
+    const noteEl = document.createElement('span')
+    noteEl.className = 'layer-sub'
+    noteEl.style.cssText = 'padding-left:26px;display:block;font-size:11px'
+    noteEl.textContent = initBandLayer.legendNote || ''
+    noteEl.style.display = initBandLayer.legendNote ? 'block' : 'none'
+    row.appendChild(noteEl)
+
+    // Band toggle pill (groups with both swir + tc)
+    if (hasBoth) {
+      const toggle = document.createElement('div')
+      toggle.className = 'band-toggle'
+      toggle.style.marginLeft = '26px'
+      toggle.style.display = isActive ? 'flex' : 'none'
+
+      const swirBtn = document.createElement('button')
+      swirBtn.className = 'band-btn' + (bandState[gk] === 'swir' ? ' active' : '')
+      swirBtn.dataset.band = 'swir'
+      swirBtn.textContent = 'Burn scar'
+
+      const tcBtn = document.createElement('button')
+      tcBtn.className = 'band-btn' + (bandState[gk] === 'tc' ? ' active' : '')
+      tcBtn.dataset.band = 'tc'
+      tcBtn.textContent = 'Natural'
+
+      toggle.appendChild(swirBtn)
+      toggle.appendChild(tcBtn)
+      row.appendChild(toggle)
+
+      toggle.addEventListener('click', e => {
+        const btn = e.target.closest('.band-btn')
+        if (!btn) return
+        e.stopPropagation()
+        bandState[gk] = btn.dataset.band
+        const bl = layers.find(l => l.band === bandState[gk]) || first
+        noteEl.textContent = bl.legendNote || ''
+        noteEl.style.display = bl.legendNote ? 'block' : 'none'
+        if (activeGroup === gk) {
+          showSatelliteLayer(map, activeLayerId(gk), satellite)
+        }
+        updateIndicators()
+      })
+    }
+
+    // Click row → select group
+    row.addEventListener('click', e => {
+      if (e.target.closest('.band-toggle')) return
+      selectGroup(gk)
+    })
+
     satGroup.appendChild(row)
   })
 

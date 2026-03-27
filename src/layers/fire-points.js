@@ -101,8 +101,10 @@ export function showFirePass(map, activeIdx, passConfigs) {
 export function setFirePassesVisible(map, visible, passConfigs) {
   // Called by panel toggle — hides all passes when unchecked
   const opacity = visible ? 0.9 : 0
+  const strokeOpacity = visible ? 0.6 : 0
   passConfigs.forEach(pass => {
     map.setPaintProperty(`fire-points-${pass.id}`, 'circle-opacity', opacity)
+    map.setPaintProperty(`fire-points-${pass.id}`, 'circle-stroke-opacity', strokeOpacity)
     map.setPaintProperty(`fire-ghost-${pass.id}`, 'circle-opacity', 0)
   })
 }
